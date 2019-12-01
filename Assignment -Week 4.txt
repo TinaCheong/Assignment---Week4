@@ -1,0 +1,115 @@
+1. What is Polymorphism? Try to explain in Mandarin.
+多型就像是一塊模版，利用抽象類別和介面的特性，讓我們在同一物件下可以操作有多個不同資料型態的物件。這是由於我們都把不用的類別（資料型態）繼承到一個類別和介面當中並擁有相同的屬性和函式，因此在運用這堆資料的型態時，我們可以用一個物件來操作不用資料型態的變數與函式，不會再完會依賴於單獨一個類別，以下方的程式碼為例︰
+class teacher{
+    var id ="A01"
+    var salary = 30000
+    var work = "teaching"
+
+}
+class Student{
+    var id ="B01"
+    var work = "learning"
+
+}
+class Clerk{
+    var id ="C01"
+    var salary = 28000
+    var work = "paper work"
+    var admin = "Peter"
+
+}
+
+fun main() {
+    val teacher1 = teacher()
+    val student1 = Student()
+    val clerk1 = Clerk()
+    println(teacher1.id)
+    println(student1.id)
+    println(clerk1.id)
+}
+//結果會為︰
+//A01
+//B01
+//C01
+
+利用了抽象類別以後，則可以使用多型來在同一物件下操作不同資料屬性的物件︰
+
+abstract class Staff(){
+    abstract var id : String
+    abstract var salary : Int
+    abstract var work : String
+
+    abstract fun printState(): String
+
+    fun comment() : String{
+        return "Normal"
+    }
+}
+
+class teacher : Staff() {
+    override var id ="A01"
+    override var salary = 30000
+    override var work = "teaching"
+
+    override fun printState(): String{
+        return "The teachers are teaching"
+    }
+
+}
+class Student : Staff() {
+    override var id ="B01"
+    override var salary = 0
+    override var work = "learning"
+    override fun printState(): String{
+        return "The students are learning"
+    }
+
+}
+class Clerk : Staff(){
+    override var id ="C01"
+    override var salary = 28000
+    override var work = "paper work"
+    var admin = "Peter"
+    override fun printState(): String{
+        return "The clerks are working"
+    }
+}
+
+fun main() {
+    val department = arrayOf(teacher(), Student(), Clerk())
+    for(print in department){
+        println(print.id)
+    }
+}
+//結果會為︰
+//A01
+//B01
+//C01
+
+2. Here are the 7 important lifecycle methods of an Activity, try to explain when are they called during the lifecycle of Activity:
+	i. onCreate()︰Activity的生命週期會由onCreate()開始，當一個Activity執行後會優先執行它，系統會在程式此時開始配置使用資源。
+	ii. onStart()︰在執行onCreate()後，Activity就會執行到onStart()，這時我們還未可以看在螢幕上看到畫面。
+	iii. onResume()︰在執行onStart後便會接着執行onResume()，使Activity取得螢幕的控制權，這使我們就可以看到程式覆蓋在畫面上。
+	iv. onPause()︰當我們按下返回鍵或執行另一個程式（Activity）時，就會自動進入onPause()，使當前的Activity便會退到螢幕的背景後執行，但此時程式並沒從螢幕上完全消失。
+	v. onStop()︰在執行onPause()使原來的Activity退後背景執行後，便會執行onStop()使程式放棄螢幕的存取權，使畫面從螢幕上消失。
+	vi. onDestroy()︰Activity的生命週期會在onDestroy()結束，當一個Activity執後便會刪除並釋放資源。
+	vii. onRestart()︰當由另一個Activity返回原來程式的Activity時，厡來的Activity又會從onStop()開始繼續執行，這時就會先執行onRestart()，再執得onStart()與onResume()。
+
+
+3. What is the Android Jetpack?
+Android Jetpack是Google在2017-2018年推出的一些資料庫和工具的集合，它是屬於Android基礎資料庫以外的，大概分為四個大部份Architecture、UI、Foundation和Behavior，我們可以根據自身的需求來增加至程式庫當中。它的目的是讓使用者用更少更快的程式碼來建構出更穩定、更容更測試和能對舊系統有向下兼容的程式。在我們的課程學習中也有使用到Android Jetpack的Architecture和UI等部份，當中包括Data binding、Lifecycles、Room、Navigation、viewModel、Fragment和Layout等等，也是屬於Jetpack的工具之一。以Data Binding為例，它可以加速Model-View-ViewModel的資料流建立。
+
+4. Key concepts in Android Development: Try to research them and explain briefly.
+	i. Activity︰是提供畫面的應用程式元件，且畫面通常會占滿螢幕，使我們可以與此畫面互動以執行動作。每個Activity都會有專屬的視窗去繪制使用者介面。Activity是以生命週期（Lifecycle）的形式去管理active的資源分配。Android四大組件之一，也是透過Intent來與其他三個組件連接的。
+	ii. Service︰在後台運行的沒有用戶介面的程式，例如播於背景音樂等，它也有自己的生命週期，這生命週期可以由用戶或開發者設定。所以如果說Activity是可見的程式，Service就是不可見的。Android四大組件之一，也是透過Intent來與其他三個組件連接的。
+	iii. Content Provider︰是一個操作資料的物件，使一個程式的數據可以提供給其他的程式使用。Android四大組件之一，也是透過Intent來與其他三個組件連接的。
+	iv. Broadcast Receiver︰透過發送或者接收其他組件或程式廣播或信件，然後做出相應的處理。Android四大組件之一，也是透過Intent來與其他三個組件連接的。
+	v. Notification︰顯示在程式畫面之外的信息，通常是是其他程式發出來的通知，顯示通知的欄位稱為Notification Drawer。
+	vi. Runtime Permission︰指程式並若需要使用到某些權限（如相機、麥克風或位置等）則需要在程式執行時主動向使用者請求權限授予。
+	vii. ANR︰即Application Not Responding，即因為程式無回應而彈出信息告訴用戶要等待還是強制關閉的情況。
+	viii. OOM︰Out Of Memory的簡稱，由於Android對每程式的一個流程（Process）都有着最大內存的限制，若這個流程大於16m的內存，就會出現OOM的錯誤。
+	ix. Exception︰Exception是所有例外的超類別，所有的例外都繼承於它，常見的例外有NullPointExpection、ClassCastException等。關於例外的處理，我們可以使用try...catch來設定當例外真的發生時，程式需要執行的動作。
+	x. Material Design︰為Google開發一套設計準則，透過一些對視覺設計元素和介面的規範，來為不同平台和設備上的使用者提供標準的體驗。
+
+5. What is Coroutines? Why we use it? Try to explain in Mandarin.
+Coroutines（協程）是Co+Routines，而這裏Co是指cooperation，而Routines是指functions，其意思就是讓一個function與其他的function一起互相合作。function的協程是相對於線程而言的，不論線程還是協程，它們都可以同時執行多個任務。一般來說，若現在function A需要另一組的數據結果後再與Function B合作，在線程的情況下main thread就會先執行幾行功能A、然後等待另一個thread得到結果後再由main thrad執行幾行功能B，最後再回到功能A上，如此類推來完成，而整個過程是由OS在執行的。然而，若在使協程的情況下，main thread所執行的功能是可以在保留已執行資料的狀態下暫停功能A，然後在等待其他thread在處理資料時，main thread則去執行其他功能B，待所需資料完成時再恢復執行功能A的工作。因此，協程是一個可以讓功能並行運行和合作的框架，它不處要像線程一樣在處理器上不斷進行上下功能的切換，所以其速度更快，而且能大大減少在資源和性能的使用。
